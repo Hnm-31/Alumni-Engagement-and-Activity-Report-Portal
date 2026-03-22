@@ -1,37 +1,62 @@
-import { useState } from "react";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
-function App() {
-  const [count, setCount] = useState(0);
+import FacultyLogin from './pages/FacultyLogin';
+import UploadReport from './pages/UploadReport';
+import FacultyReports from './pages/FacultyReports';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminReports from './pages/AdminReports';
 
+import FacultyLayout from './layouts/FacultyLayout';
+import AdminLayout from './layouts/AdminLayout';
+
+export default function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4 text-center">
-          Welcome to Vite + React
-        </h1>
-        <p className="text-gray-600 text-center mb-6">
-          Edit{" "}
-          <code className="bg-gray-100 px-2 py-1 rounded text-sm">
-            src/App.jsx
-          </code>{" "}
-          and save to test HMR
-        </p>
-        <div className="flex justify-center mb-6">
-          <button
-            onClick={() => setCount((count) => count + 1)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            Count is {count}
-          </button>
-        </div>
-        <div className="text-center text-sm text-gray-500">
-          <p className="mb-2">🎨 Styled with Tailwind CSS 3.x</p>
-          <p>⚡ Powered by Vite</p>
-        </div>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            borderRadius: '12px',
+            background: '#1e293b',
+            color: '#f1f5f9',
+            fontSize: '14px',
+            fontWeight: '500',
+            boxShadow: '0 10px 25px -5px rgba(0,0,0,0.3)',
+          },
+          success: {
+            iconTheme: { primary: '#22c55e', secondary: '#fff' },
+          },
+          error: {
+            iconTheme: { primary: '#ef4444', secondary: '#fff' },
+          },
+        }}
+      />
+      <Routes>
+        {/* Default redirect */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        {/* Login */}
+        <Route path="/login" element={<FacultyLogin />} />
+
+        {/* Faculty routes */}
+        <Route path="/faculty" element={<FacultyLayout />}>
+          <Route index element={<Navigate to="/faculty/upload-report" replace />} />
+          <Route path="upload-report" element={<UploadReport />} />
+          <Route path="my-reports" element={<FacultyReports />} />
+        </Route>
+
+        {/* Admin routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="reports" element={<AdminReports />} />
+        </Route>
+
+        {/* 404 fallback */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;
