@@ -1,6 +1,9 @@
 package com.pict.alumni.alumni_portal.controller;
 
 import com.pict.alumni.alumni_portal.dto.admin.AdminReportResponse;
+import com.pict.alumni.alumni_portal.entity.Faculty;
+import com.pict.alumni.alumni_portal.repository.FacultyRepository;
+import com.pict.alumni.alumni_portal.security.SecurityUtil;
 import com.pict.alumni.alumni_portal.service.ActivityReportUploadService;
 import com.pict.alumni.alumni_portal.service.admin.AdminReportService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,9 @@ public class ActivityReportController {
 
     private final ActivityReportUploadService uploadService;
     private final AdminReportService adminReportService;
+    private final FacultyRepository facultyRepository;
+
+
 
     @PostMapping(
             value = "/upload",
@@ -35,9 +41,13 @@ public class ActivityReportController {
             @RequestParam(required = false) MultipartFile extraFile
 
     ) {
-
-        // ⭐ Temporary faculty id (later from JWT / login session)
-        Long facultyId = 1L;
+//        String email = SecurityUtil.getLoggedInEmail();
+//        Faculty faculty =
+//                facultyRepository.findByEmail(email)
+//                        .orElseThrow(()->new RuntimeException("Faculty Not Found"));
+//
+//        // ⭐ Temporary faculty id (later from JWT / login session)
+//        Long facultyId = faculty.getId();
 
         Long reportId = uploadService.uploadReport(
                 alumniName,
@@ -47,8 +57,8 @@ public class ActivityReportController {
                 department,
                 studentCount,
                 mainFile,
-                extraFile,
-                facultyId
+                extraFile
+
         );
 
         return ResponseEntity.ok(

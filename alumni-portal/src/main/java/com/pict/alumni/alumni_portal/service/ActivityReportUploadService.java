@@ -2,9 +2,12 @@ package com.pict.alumni.alumni_portal.service;
 
 import com.pict.alumni.alumni_portal.dto.FileUploadResponse;
 import com.pict.alumni.alumni_portal.entity.ActivityReport;
+import com.pict.alumni.alumni_portal.entity.Faculty;
 import com.pict.alumni.alumni_portal.entity.ReportFile;
 import com.pict.alumni.alumni_portal.repository.ActivityReportRepository;
+import com.pict.alumni.alumni_portal.repository.FacultyRepository;
 import com.pict.alumni.alumni_portal.repository.ReportFileRepository;
+import com.pict.alumni.alumni_portal.security.SecurityUtil;
 import com.pict.alumni.alumni_portal.storage.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,7 @@ public class ActivityReportUploadService {
     private final ActivityReportRepository reportRepository;
     private final ReportFileRepository fileRepository;
     private final FileStorageService storageService;
-
+    private final FacultyRepository facultyRepository;
     @Transactional
     public Long uploadReport(
 
@@ -32,14 +35,19 @@ public class ActivityReportUploadService {
             String department,
             Integer studentCount,
             MultipartFile mainFile,
-            MultipartFile extraFile,
-            Long facultyId
+            MultipartFile extraFile
+
 
 
     ) {
         alumniName = alumniName.trim();
         department = department.trim();
         sessionTitle = sessionTitle.trim();
+
+        String email = SecurityUtil.getLoggedInEmail();
+        Faculty faculty = facultyRepository.findByEmail(email)
+                                    .orElseThrow(()->new RuntimeException("Faculty Not Found"));
+
 
         // ⭐ STEP-1 create report metadata
         ActivityReport report = ActivityReport.builder()
@@ -49,7 +57,7 @@ public class ActivityReportUploadService {
                 .academicYear(academicYear)
                 .department(department)
                 .studentCount(studentCount)
-                .createdBy(facultyId)
+                .createdBy(faculty.getId())
                 .build();
 
         reportRepository.save(report);

@@ -55,7 +55,7 @@ public class CloudinaryFileStorageService implements FileStorageService {
                     Map.of(
                             "public_id", "alumni/activity-reports/" + storedname,
                             "folder", folder,
-                            "resource_type", "auto"
+                            "resource_type", "raw"
                     )
             );
 
