@@ -46,16 +46,22 @@ public class CloudinaryFileStorageService implements FileStorageService {
         }
     }
 
-    private FileUploadResponse uploadToCloudinary(MultipartFile file, String folder,String storedname) {
+    private FileUploadResponse uploadToCloudinary(
+            MultipartFile file,
+            String folder,
+            String storedName
+    ) {
 
         try {
-            String publicId = storedname.substring(0,storedname.lastIndexOf("."));
+
             Map<?, ?> result = cloudinary.uploader().upload(
                     file.getBytes(),
                     Map.of(
-                            "public_id", "alumni/activity-reports/" + storedname,
-                            "folder", folder,
-                            "resource_type", "raw"
+                            "public_id", storedName,   // ⭐ only filename
+                            "folder", folder,          // ⭐ folder separate
+                            "resource_type", "raw",
+                            "use_filename", true,
+                            "unique_filename", false
                     )
             );
 
@@ -71,6 +77,7 @@ public class CloudinaryFileStorageService implements FileStorageService {
         }
     }
 
+
     private void validateFile(MultipartFile file) {
 
         if (file == null || file.isEmpty())
@@ -80,6 +87,9 @@ public class CloudinaryFileStorageService implements FileStorageService {
             throw new IllegalArgumentException("File size exceeds 10MB");
 
         String type = file.getContentType();
+        if(type ==null){
+            throw new RuntimeException("Unknown file type");
+        }
 
 
         boolean allowed =

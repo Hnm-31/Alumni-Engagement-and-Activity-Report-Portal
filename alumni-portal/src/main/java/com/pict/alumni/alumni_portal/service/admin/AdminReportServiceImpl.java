@@ -103,6 +103,7 @@ public class AdminReportServiceImpl implements AdminReportService {
                         report.getFiles()
                                 .stream()
                                 .map(file -> FileResponse.builder()
+                                        .fileId(file.getId())
                                         .fileType(file.getFileType())
                                         .fileUrl(file.getFileUrl())
                                         .structuredFileName(file.getStoredFileName())
@@ -110,6 +111,13 @@ public class AdminReportServiceImpl implements AdminReportService {
                                 .collect(Collectors.toList())
                 )
                 .build();
+    }
+
+    @Override
+    public ReportFile getFile(Long fileId){
+        return reportFileRepository.findById(fileId)
+                .orElseThrow(()->new RuntimeException("File Not Found"));
+
     }
 
 }

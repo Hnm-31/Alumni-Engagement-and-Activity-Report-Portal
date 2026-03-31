@@ -1,6 +1,7 @@
 package com.pict.alumni.alumni_portal.service.admin;
 
 import com.pict.alumni.alumni_portal.dto.admin.AdminReportResponse;
+import com.pict.alumni.alumni_portal.entity.ReportFile;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -16,4 +17,5 @@ public interface AdminReportService {
     List<AdminReportResponse> getFilesByReportId(Long reportId);
 
     String getDownloadUrl(Long fileId);
+    ReportFile getFile(Long fileId);
 }

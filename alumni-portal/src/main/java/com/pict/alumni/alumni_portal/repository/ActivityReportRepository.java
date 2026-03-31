@@ -12,4 +12,8 @@ public interface ActivityReportRepository extends JpaRepository<ActivityReport, 
     Page<ActivityReport> findByDepartment(String department, Pageable pageable);
 
     Page<ActivityReport> findByAcademicYear(Integer academicYear, Pageable pageable);
+
+    Page<ActivityReport> findByCreatedBy(Long facultyId, Pageable pageable);
+
+
 }
