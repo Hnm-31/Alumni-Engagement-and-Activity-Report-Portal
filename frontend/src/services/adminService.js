@@ -22,7 +22,9 @@ export const getReportFiles = (reportId) => {
  * We open it in a new tab so the browser handles the redirect naturally.
  */
 export const getDownloadUrl = (fileId) => {
-  return `http://localhost:8080/api/admin/files/${fileId}/download`;
+  return api.get(`/api/admin/files/${fileId}/download`, {
+    responseType: 'blob'
+  });
 };
 
 /**

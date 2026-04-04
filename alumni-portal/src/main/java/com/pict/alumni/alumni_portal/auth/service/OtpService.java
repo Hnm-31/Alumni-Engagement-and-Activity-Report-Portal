@@ -26,6 +26,8 @@ public class OtpService {
 
     public boolean verifyOtp(String email, String otp) {
 
+        email = email.trim().toLowerCase();
+
         String storedOtp =
                 redisTemplate.opsForValue().get("OTP:" + email);
 
@@ -34,20 +36,39 @@ public class OtpService {
         if (storedOtp.equals(otp)) {
 
             redisTemplate.delete("OTP:" + email);
+
+            // ✅ IMPORTANT FIX
+            markEmailVerified(email);
+
             return true;
         }
 
         return false;
     }
+//
+//    public void markEmailVerified(String email){
+//        redisTemplate.opsForValue()
+//                .set("VERIFIED:"+ email,"true",Duration.ofMinutes(10));
+//    }
+//    public boolean isEmailVerified(String email){
+//        email = email.trim().toLowerCase();   // ✅ FIX
+//        return redisTemplate.hasKey("VERIFIED:"+email);
+//    }
 
     public void markEmailVerified(String email){
+        email = email.trim().toLowerCase(); // ✨ FIX: ensure it's normalized before setting Redis key
         redisTemplate.opsForValue()
                 .set("VERIFIED:"+ email,"true",Duration.ofMinutes(10));
     }
+
     public boolean isEmailVerified(String email){
-        return redisTemplate.hasKey("VERIFIED:"+email);
+        email = email.trim().toLowerCase();
+        // ✨ FIX: safe unboxing to prevent NullPointerException at runtime
+        return Boolean.TRUE.equals(redisTemplate.hasKey("VERIFIED:"+email));
     }
+
     public void removeVerificationFlag(String email){
+        email = email.trim().toLowerCase();   // ✅ FIX
         redisTemplate.delete("VERIFIED:" + email);
     }
 }

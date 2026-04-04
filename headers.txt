@@ -1,0 +1,20 @@
+HTTP/1.1 200 OK
+Date: Tue, 24 Mar 2026 19:41:43 GMT
+Content-Type: application/octet-stream
+Content-Length: 15729
+Connection: keep-alive
+Server: cloudflare
+CF-Ray: 9e1827a8a8843b15-BOM
+Accept-Ranges: bytes
+Access-Control-Allow-Origin: *
+Cache-Control: public, no-transform, immutable, max-age=2592000
+Content-Disposition: attachment; filename="2026-03-25_Abcdefg_Computer_Engineering_MAIN_ac708899-c045-451c-b1c4-56685c0abc27"
+ETag: "514a94e9fede706f9ed85cca2dc55e4f"
+Last-Modified: Tue, 24 Mar 2026 19:30:53 GMT
+Strict-Transport-Security: max-age=604800
+Vary: Accept-Encoding
+access-control-expose-headers: Content-Length,Content-Disposition,ETag,Server-Timing,Vary
+server-timing: cld-cloudflare;dur=18;start=2026-03-24T19:41:43.154Z;desc=hit,rtt;dur=22
+timing-allow-origin: *
+x-request-id: f4f28a514e6ffe8b88add52af2dafb53
+

@@ -22,9 +22,10 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()  // allow CORS preflight
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("api/reports/**").hasAnyRole("FACULTY","ADMIN")
+                        .requestMatchers("/api/reports/**").hasAnyRole("FACULTY", "ADMIN")   // ← fixed: added leading /
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

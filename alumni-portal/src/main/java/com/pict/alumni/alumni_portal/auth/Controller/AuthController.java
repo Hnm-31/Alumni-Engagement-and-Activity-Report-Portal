@@ -4,6 +4,7 @@ import com.pict.alumni.alumni_portal.auth.dto.*;
 import com.pict.alumni.alumni_portal.auth.service.AuthService;
 import com.pict.alumni.alumni_portal.auth.service.EmailService;
 import com.pict.alumni.alumni_portal.auth.service.OtpService;
+import com.pict.alumni.alumni_portal.dto.faculty.ResetPasswordRequest;
 import com.pict.alumni.alumni_portal.entity.Faculty;
 import com.pict.alumni.alumni_portal.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -74,5 +75,18 @@ public class AuthController {
 
 
         return ResponseEntity.ok(token);
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(
+            @RequestBody ResetPasswordRequest request
+    ) {
+         String email = request.getEmail().trim().toLowerCase();
+
+        authService.resetPassword(
+                email,
+                request.getNewPassword()
+        );
+
+        return ResponseEntity.ok("Password reset successfully");
     }
 }

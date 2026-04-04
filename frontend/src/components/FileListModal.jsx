@@ -5,8 +5,32 @@ import toast from 'react-hot-toast';
 export default function FileListModal({ files = [], reportId, isAdmin = false, onClose, onDeleted }) {
   const [deletingId, setDeletingId] = useState(null);
 
-  const handleDownload = (fileId) => {
-    window.open(getDownloadUrl(fileId), '_blank');
+  const handleDownload = async (fileId, fallbackFileName) => {
+    try {
+      const response = await getDownloadUrl(fileId);
+      
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      
+      let fileName = fallbackFileName || `file_${fileId}`;
+      const contentDisposition = response.headers['content-disposition'];
+      if (contentDisposition && contentDisposition.includes('filename=')) {
+        const parts = contentDisposition.split('filename=');
+        if (parts.length > 1) {
+          fileName = parts[1].replace(/['"]/g, '');
+        }
+      }
+      
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+      toast.error('Failed to download file. Please try again.');
+    }
   };
 
   const handleDelete = async (fileId) => {
@@ -95,7 +119,7 @@ export default function FileListModal({ files = [], reportId, isAdmin = false, o
                 {/* Actions */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
-                    onClick={() => handleDownload(file.fileId)}
+                    onClick={() => handleDownload(file.fileId, file.structuredFileName)}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200 border border-blue-200"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">

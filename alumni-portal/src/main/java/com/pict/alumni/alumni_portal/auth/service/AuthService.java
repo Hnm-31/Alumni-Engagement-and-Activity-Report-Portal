@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -29,7 +32,7 @@ public class AuthService {
 
         Faculty faculty = Faculty.builder()
                 .name(request.getName())
-                .email(request.getEmail())
+                .email(email)
                 .password(passwordEncoder.encode(request.getPassword()))
                 .department(request.getDepartment())
                 .role(Faculty.Role.FACULTY)
@@ -54,5 +57,25 @@ public class AuthService {
                 faculty.getRole().name()
 
         );
+    }
+
+    public void resetPassword(String email, String newPassword) {
+
+        email = email.trim().toLowerCase();
+
+        // ✅ check Redis flag
+        if (!otpService.isEmailVerified(email)) {
+            throw new RuntimeException("OTP not verified");
+        }
+
+        Faculty faculty = facultyRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Faculty not found"));
+
+        faculty.setPassword(passwordEncoder.encode(newPassword));
+
+        facultyRepository.save(faculty);
+
+        // ✅ remove after use
+        otpService.removeVerificationFlag(email);
     }
 }
