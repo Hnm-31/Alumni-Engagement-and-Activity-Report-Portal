@@ -1,0 +1,17 @@
+
+
+
+package com.pict.alumni.alumni_portal.repository;
+
+import com.pict.alumni.alumni_portal.entity.Faculty;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface FacultyRepository extends JpaRepository<Faculty, Long> {
+
+    Optional<Faculty> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+
+}

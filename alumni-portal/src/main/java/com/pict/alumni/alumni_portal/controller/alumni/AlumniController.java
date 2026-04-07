@@ -1,4 +1,4 @@
-package com.pict.alumni.alumni_portal.controller;
+package com.pict.alumni.alumni_portal.controller.alumni;
 
 
 import com.pict.alumni.alumni_portal.entity.Alumni;
