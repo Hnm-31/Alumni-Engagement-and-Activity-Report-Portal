@@ -27,7 +27,7 @@ export default function FacultyLogin() {
               <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white">Alumni Portal</h1>
+          <h1 className="text-3xl font-bold text-white text-center">Alumni Engagement & Activity Reports Portal</h1>
           <p className="text-blue-200 text-sm mt-1">Faculty Login</p>
         </div>
 
@@ -103,7 +103,7 @@ export default function FacultyLogin() {
         </div>
 
         <p className="text-center text-blue-400 text-xs mt-6">
-          © 2026 PICT Alumni Record Management System
+          © 2026 PICT Alumni Engagement & Activity Reports Portal
         </p>
       </div>
     </div>

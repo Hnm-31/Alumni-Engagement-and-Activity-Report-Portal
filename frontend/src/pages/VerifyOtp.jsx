@@ -10,7 +10,6 @@ export default function VerifyOtp() {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Guard: if no email in session, send user back to step 1
   useEffect(() => {
     if (!email) {
       toast.error('Session expired. Please start again.');
@@ -41,20 +40,18 @@ export default function VerifyOtp() {
   return (
     <AuthCard step={2} title="Verify OTP" subtitle="Step 2 of 3 — Enter the OTP sent to your email">
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Email (readonly) */}
         <div>
-          <label className="block text-sm font-medium text-blue-200 mb-2">Email</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
           <input
             type="email"
             readOnly
             value={email}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-blue-200 text-sm cursor-not-allowed"
+            className="w-full px-4 py-3 bg-gray-100 border border-gray-200 rounded-xl text-gray-500 text-sm cursor-not-allowed"
           />
         </div>
 
-        {/* OTP */}
         <div>
-          <label className="block text-sm font-medium text-blue-200 mb-2">One-Time Password</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-1.5">One-Time Password</label>
           <input
             type="text"
             required
@@ -62,17 +59,17 @@ export default function VerifyOtp() {
             maxLength={8}
             value={otp}
             onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-            className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-center text-xl font-bold tracking-widest transition-all duration-200"
+            className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1e3aed] text-center text-xl font-bold tracking-widest transition-all duration-200 shadow-sm"
           />
-          <p className="text-xs text-blue-400 mt-1.5 text-center">Check your inbox — didn't receive it?{' '}
-            <button type="button" onClick={() => navigate('/signup/send-otp')} className="text-white hover:underline">Resend</button>
+          <p className="text-xs text-gray-500 mt-2 text-center">Check your inbox — didn't receive it?{' '}
+            <button type="button" onClick={() => navigate('/signup/send-otp')} className="text-[#1e3aed] font-medium hover:underline">Resend</button>
           </p>
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full py-3 mt-2 bg-[#1e3aed] hover:bg-blue-800 text-white font-semibold rounded-xl shadow-md transition-all duration-200 text-sm disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
           {loading ? 'Verifying...' : 'Verify OTP →'}

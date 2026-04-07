@@ -1,26 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import ReportTable from "../components/ReportTable";
 import { getAllReports } from "../services/adminService";
+import { DEPARTMENTS, ACADEMIC_YEARS } from "../utils/formConstants";
+import CustomSelect from "../components/CustomSelect";
 import toast from "react-hot-toast";
 
-const DEPARTMENTS = [
-  "All Departments",
-  "Computer Engineering",
-  "Information Technology",
-  "Electronics & Telecommunication",
-  "Mechanical Engineering",
-  "Civil Engineering",
-];
 
-const ACADEMIC_YEARS = [
-  "All Years",
-  "2026-27",
-  "2025-26",
-  "2024-25",
-  "2023-24",
-  "2022-23",
-  "2021-22",
-];
 
 const COLUMNS = [
   { key: "alumniName", label: "Alumni Name" },
@@ -163,35 +148,25 @@ export default function AdminReports() {
           {/* Department Filter */}
           <div>
             <label className="form-label">Department</label>
-            <select
+            <CustomSelect
               name="department"
               value={filters.department}
               onChange={handleFilterChange}
-              className="form-input"
-            >
-              {DEPARTMENTS.map((d) => (
-                <option key={d} value={d === "All Departments" ? "" : d}>
-                  {d}
-                </option>
-              ))}
-            </select>
+              placeholder="All Departments"
+              options={[{ label: 'All Departments', value: '' }, ...DEPARTMENTS.map(d => ({ label: d, value: d }))]}
+            />
           </div>
 
           {/* Academic Year Filter */}
           <div>
             <label className="form-label">Academic Year</label>
-            <select
+            <CustomSelect
               name="academicYear"
               value={filters.academicYear}
               onChange={handleFilterChange}
-              className="form-input"
-            >
-              {ACADEMIC_YEARS.map((y) => (
-                <option key={y} value={y === "All Years" ? "" : y}>
-                  {y}
-                </option>
-              ))}
-            </select>
+              placeholder="All Years"
+              options={[{ label: 'All Years', value: '' }, ...ACADEMIC_YEARS.map(y => ({ label: y, value: y }))]}
+            />
           </div>
 
           {/* Search */}

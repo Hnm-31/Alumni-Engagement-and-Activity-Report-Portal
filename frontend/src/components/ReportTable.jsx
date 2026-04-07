@@ -124,7 +124,7 @@ export default function ReportTable({
 
       {/* Pagination */}
       {pagination && (
-        <div className="flex items-center justify-between mt-4 px-1">
+        <div className="flex flex-col sm:flex-row items-center sm:justify-between mt-4 px-1 gap-4">
           <p className="text-sm text-gray-500">
             Page <span className="font-medium text-gray-700">{pagination.page + 1}</span> of{' '}
             <span className="font-medium text-gray-700">{pagination.totalPages || 1}</span>

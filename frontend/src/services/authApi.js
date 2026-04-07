@@ -31,6 +31,14 @@ export const register = (name, email, password, department) => {
 };
 
 /**
+ * POST /api/auth/reset-password
+ * Resets password after OTP verification (same OTP flow as registration)
+ */
+export const resetPassword = (email, newPassword) => {
+  return api.post('/api/auth/reset-password', { email, newPassword });
+};
+
+/**
  * Decode JWT payload (base64) without external library.
  * Returns { sub (email), role, exp, ... }
  */

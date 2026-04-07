@@ -4,11 +4,14 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Auth pages
+import LandingPage from './pages/LandingPage';
+import AuthLayout from './layouts/AuthLayout';
+
 import Login from './pages/Login';
 import SendOtp from './pages/SendOtp';
 import VerifyOtp from './pages/VerifyOtp';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
 
 // Faculty pages
 import UploadReport from './pages/UploadReport';
@@ -17,6 +20,7 @@ import FacultyReports from './pages/FacultyReports';
 // Admin pages
 import AdminDashboard from './pages/AdminDashboard';
 import AdminReports from './pages/AdminReports';
+import AdminInsights from './pages/AdminInsights';
 
 // Layouts
 import FacultyLayout from './layouts/FacultyLayout';
@@ -44,14 +48,18 @@ export default function App() {
         />
 
         <Routes>
-          {/* Default */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Default Landing Page */}
+          <Route path="/" element={<LandingPage />} />
 
-          {/* ── Public Auth Routes ─────────────────────────────── */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup/send-otp"  element={<SendOtp />} />
-          <Route path="/signup/verify-otp" element={<VerifyOtp />} />
-          <Route path="/signup/register"  element={<Register />} />
+          {/* ── Public Auth Routes (Wrapped in official header) ── */}
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/signup/send-otp" element={<SendOtp />} />
+            <Route path="/signup/verify-otp" element={<VerifyOtp />} />
+            <Route path="/signup/register" element={<Register />} />
+          </Route>
 
           {/* ── Faculty Routes (protected) ─────────────────────── */}
           <Route
@@ -79,6 +87,7 @@ export default function App() {
             <Route index element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="reports"   element={<AdminReports />} />
+            <Route path="insights"  element={<AdminInsights />} />
           </Route>
 
           {/* 404 */}
