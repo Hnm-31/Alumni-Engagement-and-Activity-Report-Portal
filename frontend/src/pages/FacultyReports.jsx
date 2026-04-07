@@ -4,8 +4,8 @@ import {
   getMyReportById,
   updateMyReport,
   replaceReportFile,
+  getFacultyDownloadUrl,
 } from '../services/reportService';
-import { getDownloadUrl } from '../services/adminService';
 import { DEPARTMENTS, ACADEMIC_YEARS } from '../utils/formConstants';
 import CustomSelect from '../components/CustomSelect';
 import toast from 'react-hot-toast';
@@ -95,7 +95,7 @@ function EditModal({ report, onClose, onSaved }) {
   const handleDownload = async (fileId, fileName) => {
     setDownloadingId(fileId);
     try {
-      const res = await getDownloadUrl(fileId);
+      const res = await getFacultyDownloadUrl(fileId);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');
       link.href = url;

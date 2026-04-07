@@ -1,13 +1,18 @@
 export default function PictHeader() {
   return (
     <div className="bg-white w-full border-b-4 border-[#2c52ed]">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center gap-6 justify-center text-center md:text-left">
+      <a 
+        href="https://pict.edu" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center gap-6 justify-center text-center md:text-left cursor-pointer hover:opacity-90 transition-opacity"
+      >
         {/* Logo */}
         <div className="flex-shrink-0">
           <img 
             src="/pict_logo.jpg" 
             alt="PICT Logo" 
-            className="w-24 h-24 md:w-32 md:h-32 object-contain"
+            className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-105 transition-transform duration-200"
           />
         </div>
         
@@ -26,7 +31,7 @@ export default function PictHeader() {
             AICTE APPROVED | ISO 9001:2015 | NAAC A+ Grade | NBA [All Eligible UG Programs]
           </p>
         </div>
-      </div>
+      </a>
 
     </div>
   );

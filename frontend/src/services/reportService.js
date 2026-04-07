@@ -54,3 +54,14 @@ export const replaceReportFile = (reportId, fileId, file) => {
 export const getReportFiles = (reportId) => {
   return api.get(`/api/admin/reports/${reportId}/files`);
 };
+
+/**
+ * Returns the URL to trigger a file download for faculty.
+ * GET /api/faculty/files/{fileId}/download
+ */
+export const getFacultyDownloadUrl = (fileId) => {
+  return api.get(`/api/faculty/files/${fileId}/download`, {
+    responseType: 'blob'
+  });
+};
+

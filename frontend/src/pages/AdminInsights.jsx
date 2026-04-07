@@ -321,7 +321,7 @@ export default function AdminInsights() {
         <StatCard label="Departments"      value={stats.departments}                icon="🏛️" gradient="bg-gradient-to-br from-violet-500 to-violet-700" />
         <StatCard label="Academic Years"   value={stats.academicYears}              icon="📅" gradient="bg-gradient-to-br from-emerald-500 to-emerald-700" />
         <StatCard label="Students Reached" value={stats.totalStudents.toLocaleString()} icon="👥" gradient="bg-gradient-to-br from-amber-500 to-amber-600" />
-        <StatCard label="Avg / Session"    value={stats.avgStudents}               icon="📊" gradient="bg-gradient-to-br from-rose-500 to-rose-700" />
+        <StatCard label="Avg Students / Session"    value={stats.avgStudents}               icon="📊" gradient="bg-gradient-to-br from-rose-500 to-rose-700" />
       </div>
 
       {/* ── Row 1: Reports per year (bar) + Dept share (pie) ── */}

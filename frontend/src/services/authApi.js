@@ -26,8 +26,8 @@ export const verifyOtp = (email, otp) => {
 /**
  * POST /api/auth/register
  */
-export const register = (name, email, password, department) => {
-  return api.post('/api/auth/register', { name, email, password, department });
+export const register = (data) => {
+  return api.post('/api/auth/register', data);
 };
 
 /**
