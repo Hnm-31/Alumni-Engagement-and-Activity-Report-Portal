@@ -34,3 +34,4 @@ build/
 
 # Local dev credentials (never commit)
 application-local.properties
+.env
