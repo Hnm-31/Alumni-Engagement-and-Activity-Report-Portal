@@ -180,4 +180,24 @@ public class FacultyReportServiceImpl implements FacultyReportService {
 
         reportFileRepository.save(file);
     }
+
+    @Override
+    public ReportFile getAuthorizedFile(Long fileId) {
+        String email = SecurityUtil.getLoggedInEmail();
+
+        Faculty faculty = facultyRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Faculty not found"));
+
+        ReportFile file = reportFileRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("File not found"));
+
+        ActivityReport report = file.getActivityReport();
+
+        // Ownership validation - ensures a faculty member can't download someone else's file
+        if (!report.getCreatedBy().equals(faculty.getId())) {
+            throw new RuntimeException("You cannot download this file");
+        }
+        return file;
+    }
+
 }
