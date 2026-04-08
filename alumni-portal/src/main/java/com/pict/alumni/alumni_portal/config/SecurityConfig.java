@@ -22,6 +22,7 @@ public class SecurityConfig {
 
                 http
                                 .csrf(csrf -> csrf.disable())
+                                .cors(org.springframework.security.config.Customizer.withDefaults())
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/", "/health", "/api/auth/**").permitAll()
                                                 .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**")

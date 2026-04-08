@@ -12,7 +12,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmailService {
 
-    @Value("${resend.api.key}")
+    @Value("${resend.api.key:}")
     private String apiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
