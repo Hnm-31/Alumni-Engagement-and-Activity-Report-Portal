@@ -1,27 +1,44 @@
 package com.pict.alumni.alumni_portal.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
 
-    private final JavaMailSender javaMailSender;
+    @Value("${resend.api.key}")
+    private String apiKey;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public void sendOtpMail(String toEmail, String otp) {
+        String url = "https://api.resend.com/emails";
 
-        SimpleMailMessage message = new SimpleMailMessage();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(apiKey);
 
-        message.setTo(toEmail);
-        message.setSubject("PICT Alumni Portal - OTP Verification");
-        message.setText(
-                "Your OTP for Alumni Portal signup is: " + otp +
-                        "\nValid for 5 minutes."
-        );
+        Map<String, Object> body = new HashMap<>();
+        body.put("from", "Alumni Portal <onboarding@resend.dev>");
+        body.put("to", toEmail);
+        body.put("subject", "PICT Alumni Portal - OTP Verification");
+        body.put("html", "<strong>Your OTP for Alumni Portal signup is: " + otp + "</strong><br>Valid for 5 minutes.");
 
-        javaMailSender.send(message);
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                System.out.println("Email sent successfully!");
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to send email via API: " + e.getMessage());
+        }
     }
 }
